@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>?</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" type="image/svg+xml" href="/static/jaguar-spirit-favicon.svg">
+</head>
+<body>
+<form action="/" method="POST" class="responsive-form">
+    <textarea name="prompt" rows="10" cols="70" class="form-textarea"></textarea><br>
+    <div class="button-container">
+    <button type="submit" name="prefix" value="golang" class="btn">Golang</button>
+    <button type="submit" name="prefix" value="fix spelling, grammar" class="btn">FixEnglish</button>
+    <button type="submit" name="prefix" value="meaning" class="btn">EnglishMeaning</button>
+    <button type="submit" name="prefix" value="can I say" class="btn">Am I right?</button>
+    <button type="submit" name="prefix" value="blank" class="btn">[...]</button>
+    </div>
+</form>
+{{if .response}}
+<p>{{.prompt}}</p>
+<p>{{.response}}</p>
+{{end}}
+{{if .error}}
+<p style="color: red;">Error: {{.error}}</p>
+{{end}}
+<script>
+    const getRandomColor = () => {
+        return Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+    };
+
+    const getContrastColor = (hexcolor) => {
+        // Convert hex to RGB
+        const r = parseInt(hexcolor.slice(0, 2), 16);
+        const g = parseInt(hexcolor.slice(2, 4), 16);
+        const b = parseInt(hexcolor.slice(4, 6), 16);
+        // Calculate luminance
+        const yiq = ((r*299)+(g*587)+(b*114))/1000;
+        // Return black or white depending on luminance
+        return (yiq >= 128) ? '000000' : 'ffffff';
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach((button) => {
+            const bgColor = getRandomColor();
+            const textColor = getContrastColor(bgColor);
+            button.style.backgroundColor = '#' + bgColor;
+            button.style.color = '#' + textColor;
+        });
+    });
+</script>
+</body>
+</html>
